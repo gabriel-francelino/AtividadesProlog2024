@@ -10,7 +10,7 @@
 :- dynamic(no/3).
 :- dynamic(raiz/1).
 
-:- assert(no(nada,nada,nada)), assert(raiz(nada)).
+:- asserta(no(nada,nada,nada)), asserta(raiz(nada)).
 
 mostraRaiz :- 
     raiz(Raiz), 
@@ -21,17 +21,17 @@ arvoreEstaVazia :- no(nada,nada,nada).
 inserir(Valor, Valor) :- writeln('Valor ja existe na arvore').
 inserir(Valor, nada) :-  
     retract(no(nada,nada,nada)), retract(raiz(nada)), 
-    asserta(no(Valor, nada, nada)), asserta(raiz(Valor)), !.
+    assertz(no(Valor, nada, nada)), assertz(raiz(Valor)), !.
 inserir(Valor, SubRaiz) :-
     Valor < SubRaiz,
     no(SubRaiz, nada, Dir),
     retract(no(SubRaiz, nada, Dir)), 
-    asserta(no(SubRaiz, Valor, Dir)), asserta(no(Valor, nada, nada)), !.
+    assertz(no(SubRaiz, Valor, Dir)), assertz(no(Valor, nada, nada)), !.
 inserir(Valor, SubRaiz) :-
     Valor > SubRaiz,
     no(SubRaiz, Esq, nada),
     retract(no(SubRaiz, Esq, nada)), 
-    asserta(no(SubRaiz, Esq, Valor)), asserta(no(Valor, nada, nada)), !.
+    assertz(no(SubRaiz, Esq, Valor)), assertz(no(Valor, nada, nada)), !.
 inserir(Valor, SubRaiz) :- 
     no(SubRaiz, Esq, Dir),
     (Valor < SubRaiz -> inserir(Valor, Esq) ; inserir(Valor, Dir)).
@@ -77,12 +77,12 @@ escreveOpcoes :-
     writeln('======== Opções ========'),
     writeln('1 - Inserir'), 
     writeln('2 - Apagar Árvore'), 
-    writeln('2.1 - Apagar Nó Folha'),
-    writeln('3 - Pre-ordem'), 
-    writeln('4 - Em-ordem'), 
-    writeln('5 - Pos-ordem'),
-    writeln('6 - Listar todos os nós'),
-    writeln('7 - Mostrar raiz'),
+    writeln('3 - Apagar Nó Folha'),
+    writeln('4 - Pre-ordem'), 
+    writeln('5 - Em-ordem'), 
+    writeln('6 - Pos-ordem'),
+    writeln('7 - Listar todos os nós'),
+    writeln('8 - Mostrar raiz'),
     writeln('0 - Fim'), 
     writeln('========================').
 
