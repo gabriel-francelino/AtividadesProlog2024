@@ -1,23 +1,32 @@
-%Trablho1 -  implementar arvore binaria em prolog
-% Usando base de fatos dinˆamica e as estrutura de sele¸c˜ao e repeti¸c˜ao
-% apresentadas anteriormente, desenvolva um programa prolog para
-% inserir fatos que representam os n´os da ´arvore (no(Info,Esq,Dir))
-% (conforme o primeiro exemplo de ´arvore bin´aria). O programa dever´a
-% ainda ler uma op¸c˜ao (1-inserir, 2-apagar, 3-pre-ordem, 4-em-ordem,
-% 5-pos-ordem e 6-fim) e se for necess´ario um valor, para fazer a
-% manuten¸c˜ao de uma ´arvore bin´aria de busca.
+/*+=============================================================
+2 | UNIFAL = Universidade Federal de Alfenas.
+3 | BACHARELADO EM CIENCIA DA COMPUTACAO.
+4 | Trabalho . . : Árvore binária em prolog
+5 | Disciplina . : Progrmação Lógica
+6 | Professor. . : Luiz Eduardo da Silva
+7 | Aluno . . . .: Gabriel Francelino Nascimento
+8 | Data . . . . : 20/05/2024
+9 +=============================================================*/
 
+% OPERAÇÃO PARA CRIAR DINÂMICAMENTO OS FATOS no/3 E raiz/1
 :- dynamic(no/3).
 :- dynamic(raiz/1).
 
+% INICA ÁRVORE COM no(nada,nada,nada) E raiz(nada)
 :- asserta(no(nada,nada,nada)), asserta(raiz(nada)).
 
+% OPERAÇÕES DE LISTAGEM 
 mostraRaiz :- 
     raiz(Raiz), 
     write('Raiz da árvore-> '), writeln(Raiz).
 
-arvoreEstaVazia :- no(nada,nada,nada).
+listaNos :- 
+    no(Info, Esq, Dir), 
+    write('Raiz-> '), write(Info), 
+    write(', Esquerda-> '), write(Esq), 
+    write(', Direita-> '), write(Dir), nl, fail.
 
+% OPERAÇÕES DE INSERÇÃO
 inserir(Valor, Valor) :- writeln('Valor ja existe na arvore').
 inserir(Valor, nada) :-  
     retract(no(nada,nada,nada)), retract(raiz(nada)), 
@@ -36,12 +45,7 @@ inserir(Valor, SubRaiz) :-
     no(SubRaiz, Esq, Dir),
     (Valor < SubRaiz -> inserir(Valor, Esq) ; inserir(Valor, Dir)).
 
-listaNos :- 
-    no(Info, Esq, Dir), 
-    write('Raiz-> '), write(Info), 
-    write(', Esquerda-> '), write(Esq), 
-    write(', Direita-> '), write(Dir), nl, fail.
-
+% OPERAÇÕES DE REMOÇÃO
 apagarArvore :- 
     retractall(no(_,_,_)), 
     retractall(raiz(_)), 
@@ -54,6 +58,7 @@ apagarNohFolha(Raiz) :-
         writeln('No momento só é permitido remover nós que são folhas.')
     ).
 
+% OPERAÇÕES DE PERCURSO NA ÁRVORE
 preOrdem(nada) :- !.
 preOrdem(Raiz) :- 
     write(Raiz), write(', '), 
@@ -73,6 +78,7 @@ posOrdem(Raiz) :-
     posOrdem(Esq), posOrdem(Dir), 
     write(Raiz), write(', ').
 
+% MENU PRINCIPAL
 escreveOpcoes :- 
     writeln('======== Opções ========'),
     writeln('1 - Inserir'), 
@@ -86,6 +92,7 @@ escreveOpcoes :-
     writeln('0 - Fim'), 
     writeln('========================').
 
+% EXECUTA AS OPÇÕES
 executarAcao(Acao) :- 
     raiz(Raiz),
     (Acao == 1 -> 
@@ -127,6 +134,7 @@ executarPrograma :-
     executarAcao(Opcao),
     fail.
 
+% PREDICADOS PARA TESTES
 :- raiz(R), inserir(5,R). 
 :- raiz(R), inserir(3,R).
 :- raiz(R), inserir(7,R).
@@ -134,4 +142,5 @@ executarPrograma :-
 :- raiz(R), inserir(2,R).
 :- raiz(R), inserir(6,R).
 
+% EXECUTA O PROGRAMA AO CARREGAR O ARQUIVO
 :- executarPrograma.
