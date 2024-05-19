@@ -53,10 +53,18 @@ apagarArvore :-
     asserta(raiz(nada)).
     
 apagarNohFolha(Raiz) :- 
-    (no(Raiz, nada, nada) -> 
-        retract(no(Raiz, nada, nada)) ; 
-        writeln('No momento só é permitido remover nós que são folhas.')
-    ).
+    no(Raiz, nada, nada),
+    no(Pai, Raiz, Dir),
+    retract(no(Raiz, nada, nada)),
+    retract(no(Pai,Raiz,Dir)),
+    assertz(no(Pai, nada, Dir)), !.
+apagarNohFolha(Raiz) :- 
+    no(Raiz, nada, nada),
+    no(Pai, Esq, Raiz),
+    retract(no(Raiz, nada, nada)),
+    retract(no(Pai,Esq,Raiz)),
+    assertz(no(Pai, Esq, Raiz)), !.
+apagarNohFolha(_) :- writeln('No momento só é permitido remover nós que são folhas.').
 
 % OPERAÇÕES DE PERCURSO NA ÁRVORE
 preOrdem(nada) :- !.
