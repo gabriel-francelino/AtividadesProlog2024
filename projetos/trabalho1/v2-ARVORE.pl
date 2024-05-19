@@ -41,8 +41,18 @@ listaNos :-
     write('Raiz-> '), write(Info), 
     write(', Esquerda-> '), write(Esq), 
     write(', Direita-> '), write(Dir), nl, fail.
+
+apagarArvore :- 
+    retractall(no(_,_,_)), 
+    retractall(raiz(_)), 
+    asserta(no(nada,nada,nada)), 
+    asserta(raiz(nada)).
     
-apagar(Raiz) :- retract(no(Raiz, _, _)).
+apagarNohFolha(Raiz) :- 
+    (no(Raiz, nada, nada) -> 
+        retract(no(Raiz, nada, nada)) ; 
+        writeln('No momento só é permitido remover nós que são folhas.')
+    ).
 
 preOrdem(nada) :- !.
 preOrdem(Raiz) :- 
@@ -66,7 +76,8 @@ posOrdem(Raiz) :-
 escreveOpcoes :- 
     writeln('======== Opções ========'),
     writeln('1 - Inserir'), 
-    writeln('2 - Apagar'), 
+    writeln('2 - Apagar Árvore'), 
+    writeln('2.1 - Apagar Nó Folha'),
     writeln('3 - Pre-ordem'), 
     writeln('4 - Em-ordem'), 
     writeln('5 - Pos-ordem'),
@@ -81,25 +92,27 @@ executarAcao(Acao) :-
         writeln('Digite o valor do nó a ser inserido: '), 
         read(Noh),  
         inserir(Noh, Raiz)
-    ; Acao == 2 -> 
+    ; Acao == 2 ->
+        apagarArvore
+    ; Acao == 3 -> 
         writeln('Digite o valor do nó a ser removido: '), 
         read(Noh), 
-        apagar(Noh)
-    ; Acao == 3 -> 
+        apagarNohFolha(Noh)
+    ; Acao == 4 -> 
         writeln('Pre-ordem: '), 
         preOrdem(Raiz), 
         nl
-    ; Acao == 4 ->
+    ; Acao == 5 ->
         writeln('Em-ordem: '), 
         emOrdem(Raiz), 
         nl
-    ; Acao == 5 -> 
+    ; Acao == 6 -> 
         writeln('Pos-ordem: '), 
         posOrdem(Raiz), 
         nl
-    ; Acao == 6 -> 
+    ; Acao == 7 -> 
         listaNos
-    ; Acao == 7 ->
+    ; Acao == 8 ->
         mostraRaiz
     ; Acao == 0 ->
         writeln('Programa encerrado!'),
@@ -114,11 +127,11 @@ executarPrograma :-
     executarAcao(Opcao),
     fail.
 
-% :- raiz(R), inserir(5,R). 
-% :- raiz(R), inserir(3,R).
-% :- raiz(R), inserir(7,R).
-% :- raiz(R), inserir(1,R).
-% :- raiz(R), inserir(2,R).
-% :- raiz(R), inserir(6,R).
+:- raiz(R), inserir(5,R). 
+:- raiz(R), inserir(3,R).
+:- raiz(R), inserir(7,R).
+:- raiz(R), inserir(1,R).
+:- raiz(R), inserir(2,R).
+:- raiz(R), inserir(6,R).
 
 :- executarPrograma.
