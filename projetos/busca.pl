@@ -115,6 +115,34 @@ traduz(transfere5para8, 'transfere de 5 para 8').
 traduz(transfere3para5, 'transfere de 3 para 5').
 traduz(transfere3para8, 'transfere de 3 para 8').
 
+inicial([8,0,0]).
+meta([4,4,0]).
+
+oper(transfere8para3, [A,B,C], [A1,B,C1]) :-
+    A > 0, C < 3, Soma is A + C, 
+    (Soma > 3 -> 
+        A1 is Soma - 3, C1 is 3 ;
+        A1 is 0, C1 is Soma).
+oper(transfere8para5, [A,B,C], [A1,B1,C]) :-
+    A > 0, B < 5, Soma is A + B, 
+    (Soma > 5 -> 
+        A1 is Soma - 5, B1 is 5 ;
+        A1 is 0, B1 is Soma).
+oper(transfere5para3, [A,B,C], [A,B1,C1]) :-
+    B > 0, C < 3, Soma is B + C, 
+    (Soma > 3 -> 
+        B1 is Soma - 3, C1 is 3 ;
+        B1 is 0, C1 is Soma).
+oper(transfere5para8, [A,B,C], [A1,0,C]) :- % de 5 para 8 nunca sobra nada em no jarro 5
+    B > 0, A < 8, A1 is B + A.
+oper(transfere3para5, [A,B,C], [A,B1,C1]) :-
+    C > 0, B < 5, Soma is C + B, 
+    (Soma > 5 -> 
+        C1 is Soma - 5, B1 is 5 ;
+        C1 is 0, B1 is Soma).
+oper(transfere3para8, [A,B,C], [A1,B,0]) :- % de 3 para 8 nunca sobra nada em no jarro 3
+    C > 0, A < 8, A1 is C + A.
+ 
 % inicial([8,0,0]).
 % meta([4,4,0]).
 % oper(transfere8para3, [A,_,C], [A1,B1,C1]) :-
