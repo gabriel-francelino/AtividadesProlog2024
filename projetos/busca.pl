@@ -115,47 +115,92 @@ traduz(transfere5para8, 'transfere de 5 para 8').
 traduz(transfere3para5, 'transfere de 3 para 5').
 traduz(transfere3para8, 'transfere de 3 para 8').
 
-inicial([8,0,0]).
-meta([4,4,0]).
-oper(transfere8para3, [A,_,C], [A1,B1,C1]) :-
-    A > 0, C < 3, 
-    X is A + C, 
-    (X > 3 -> 
-        A1 is X - 3, C1 is X - A1;
-        A1 is 0, C1 is X),
-    Y is A1 + C1, B1 is 8 - Y. 
-oper(transfere8para5, [A,B,_], [A1,B1,C1]) :-
-    A > 0, B < 5,
-    X is A + B, 
-    (X > 5 -> 
-        A1 is X - 5, B1 is X - A1;
-        A1 is 0, B1 is X),
-    Y is A1 + B1, C1 is 8 - Y.
-oper(transfere5para3, [_,B,C], [A1,B1,C1]) :-
-    B > 0, C < 3,
-    X is B + C, 
-    (X > 3 ->
-        B1 is X - 3, C1 is X - B1;
-        B1 is 0, C1 is X),
-    Y is B1 + C1, A1 is 8 - Y. 
-oper(transfere5para8, [A,B,_], [A1,B1,C1]) :-
-    B > 0, A < 8,
-    X is B + A, 
-    (X > 8 -> 
-        B1 is X - 8, A1 is X - B1 ;
-        B1 is 0, A1 is X),
-    Y is B1 + A1, C1 is 8 - Y.
-oper(transfere3para5, [_,B,C], [A1,B1,C1]) :-
-    C > 0, B < 5,
-    X is C + B, 
-    (X > 5 -> 
-        C1 is X - 5, B1 is X - C1 ;
-        C1 is 0, B1 is X),
-    Y is C1 + B1, A1 is 8 - Y.
-oper(transfere3para8, [A,_,C], [A1,B1,C1]) :-
-    C > 0, A < 8,
-    X is C + A, 
-    (X > 8 -> 
-        C1 is X - 8, A1 is X - C1 ;
-        C1 is 0, A1 is X),
-    Y is C1 + A1, B1 is 8 - Y.
+% inicial([8,0,0]).
+% meta([4,4,0]).
+% oper(transfere8para3, [A,_,C], [A1,B1,C1]) :-
+%     A > 0, C < 3, 
+%     X is A + C, 
+%     (X > 3 -> 
+%         A1 is X - 3, C1 is X - A1;
+%         A1 is 0, C1 is X),
+%     Y is A1 + C1, B1 is 8 - Y. 
+% oper(transfere8para5, [A,B,_], [A1,B1,C1]) :-
+%     A > 0, B < 5,
+%     X is A + B, 
+%     (X > 5 -> 
+%         A1 is X - 5, B1 is X - A1;
+%         A1 is 0, B1 is X),
+%     Y is A1 + B1, C1 is 8 - Y.
+% oper(transfere5para3, [_,B,C], [A1,B1,C1]) :-
+%     B > 0, C < 3,
+%     X is B + C, 
+%     (X > 3 ->
+%         B1 is X - 3, C1 is X - B1;
+%         B1 is 0, C1 is X),
+%     Y is B1 + C1, A1 is 8 - Y. 
+% oper(transfere5para8, [A,B,_], [A1,B1,C1]) :-
+%     B > 0, A < 8,
+%     X is B + A, 
+%     (X > 8 -> 
+%         B1 is X - 8, A1 is X - B1 ;
+%         B1 is 0, A1 is X),
+%     Y is B1 + A1, C1 is 8 - Y.
+% oper(transfere3para5, [_,B,C], [A1,B1,C1]) :-
+%     C > 0, B < 5,
+%     X is C + B, 
+%     (X > 5 -> 
+%         C1 is X - 5, B1 is X - C1 ;
+%         C1 is 0, B1 is X),
+%     Y is C1 + B1, A1 is 8 - Y.
+% oper(transfere3para8, [A,_,C], [A1,B1,C1]) :-
+%     C > 0, A < 8,
+%     X is C + A, 
+%     (X > 8 -> 
+%         C1 is X - 8, A1 is X - C1 ;
+%         C1 is 0, A1 is X),
+%     Y is C1 + A1, B1 is 8 - Y.
+
+% Missionarios e canibais --------------------------------------------------------------------
+% traduz(vaiM, 'vai um missionario').
+% traduz(voltaM, 'volta um missionario').
+% traduz(vaiMM, 'vai dois missionarios').
+% traduz(voltaMM, 'volta dois missionarios').
+% traduz(vaiC, 'vai um canibal').
+% traduz(voltaC, 'volta um canibal').
+% traduz(vaiCC, 'vai dois canibais').
+% traduz(voltaCC, 'volta dois canibais').
+% traduz(vaiMC, 'vai um missionario e um canibal').
+% traduz(voltaMC, 'volta um missionario e um canibal').
+
+% % [Missionarios1, Canibais1, Missionarios2, Canibais2, LadoDoBarco]
+% inicial([3,3,0,0,1]).
+% meta([0,0,3,3,2]).
+
+% seguro([M1,C1,M2,C2]) :- (M1 >= C1; M1 =:= 0), (M2 >= C2; M2 =:= 0).
+
+% oper('vaiM', [M1,C1,M2,C2,1], [A,C1,B,C2,2]) :-
+%     M1 >= 1, M2 < 3, A is M1 - 1, B is M2 + 1, seguro([A,C1,B,C2]).
+% oper('voltaM', [M1,C1,M2,C2,2], [A,C1,B,C2,1]) :-
+%     M2 >= 1, M1 < 3, A is M1 + 1, B is M2 - 1, seguro([A,C1,B,C2]).
+% oper('vaiMM', [M1,C1,M2,C2,1], [A,C1,B,C2,2]) :-
+%     M1 >= 2, M2 < 2, A is M1 - 2, B is M2 + 2, seguro([A,C1,B,C2]).
+% oper('voltaMM', [M1,C1,M2,C2,2], [A,C1,B,C2,1]) :-
+%     M2 >= 2, M1 < 2, A is M1 + 2, B is M2 - 2, seguro([A,C1,B,C2]).
+
+% oper('vaiC', [M1,C1,M2,C2,1], [M1,X,M2,Y,2]) :-
+%     C1 >= 1, C2 < 3, X is C1 - 1, Y is C2 + 1, seguro([M1,X,M2,Y]).
+% oper('voltaC', [M1,C1,M2,C2,2], [M1,X,M2,Y,1]) :-
+%     C2 >= 1, C1 < 3, X is C1 + 1, Y is C2 - 1, seguro([M1,X,M2,Y]).
+% oper('vaiCC', [M1,C1,M2,C2,1], [M1,X,M2,Y,2]) :-
+%     C1 >= 2, C2 < 2, X is C1 - 2, Y is C2 + 2, seguro([M1,X,M2,Y]).
+% oper('voltaC', [M1,C1,M2,C2,2], [M1,X,M2,Y,1]) :-
+%     C2 >= 2, C1 < 2, X is C1 + 2, Y is C2 - 2, seguro([M1,X,M2,Y]).
+
+% oper('vaiMC', [M1,C1,M2,C2,1], [A,X,B,Y,2]) :-
+%     M1 >= 1, M2 < 3, C1 >= 1, C2 < 3, 
+%     A is M1 - 1, B is M2 + 1, X is C1 - 1, Y is C2 + 1, 
+%     seguro([A,X,B,Y]).
+% oper('voltaMC', [M1,C1,M2,C2,2], [A,X,B,Y,1]) :-
+%     M2 >= 1, M1 < 3, C2 >= 1, C1 < 3, 
+%     A is M1 + 1, B is M2 - 1, X is C1 + 1, Y is C2 - 1, 
+%     seguro([A,X,B,Y]).
