@@ -17,6 +17,14 @@ drawSpaces(N) :- forall(between(1,N,_), write(' ')).
 
 xxx(N) :- forall(between(0,N,X), (S is N-X, drawSpaces(S), wN(X), nl)).
 
+% EX4
+potencia(X, Y, Resultado) :- acumulador(X, Y, 1, Resultado).
+
+acumulador(_, 0, Acc, Acc).
+acumulador(X, Y, Acc, Resultado) :-
+    Y > 0, NewAcc is Acc * X, Y1 is Y - 1,
+    acumulador(X, Y1, NewAcc, Resultado).
+
 % EX5
 d(0).
 d(1).
@@ -24,6 +32,9 @@ d(1).
 % Resultado => L = [[0, 0], [0, 1], [1, 0], [1, 1]]
 
 % EX6
+concatena([], L, L).
+concatena([X|L1], L2, [X|L3]) :- concatena(L1, L2, L3).
+
 inverte([X], [X]).
 inverte([X|Y], Z) :- inverte(Y, W), append(W, [X], Z).
 
@@ -46,7 +57,6 @@ metIguais(Lista) :-
         writeln('Yes') ; writeln('No')
     ).
 
-
 % EX8
 insereOrd(Elemento, [], [Elemento]) :- !.
 insereOrd(Elemento, [Cabeca|Calda], [Elemento,Cabeca|Calda]) :-
@@ -57,6 +67,11 @@ insereOrd(Elemento, [Cabeca|Calda], [Cabeca|ListaOrd]) :-
 ordena([],[]) :- !.
 ordena([Cabeca|Calda], ListaOrd) :-
     ordena(Calda, ListaAux), insereOrd(Cabeca, ListaAux, ListaOrd).
+
+% EX9
+particiona([A,B], [A], [B]) :- !.
+particiona([A], [A], []) :- !.
+particiona([A,B|L], [A|L1], [B|L2]) :- particiona(L, L1, L2).
 
 % EX10
 %juntar as duas listas e ordenadas 
