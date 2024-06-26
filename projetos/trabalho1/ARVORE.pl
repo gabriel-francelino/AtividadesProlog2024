@@ -27,7 +27,7 @@ listaNos :-
     write(', Direita-> '), write(Dir), nl, fail.
 
 % OPERAÇÕES DE INSERÇÃO
-inserir(Valor, Valor) :- writeln('Valor ja existe na arvore').
+inserir(Valor, Valor) :- writeln('Valor ja existe na arvore'), !.
 inserir(Valor, nada) :-  
     retract(no(nada,nada,nada)), retract(raiz(nada)), 
     assertz(no(Valor, nada, nada)), assertz(raiz(Valor)), !.
@@ -63,7 +63,7 @@ apagarNohFolha(Raiz) :-
     no(Pai, Esq, Raiz),
     retract(no(Raiz, nada, nada)),
     retract(no(Pai,Esq,Raiz)),
-    assertz(no(Pai, Esq, Raiz)), !.
+    assertz(no(Pai, Esq, nada)), !.
 apagarNohFolha(_) :- writeln('No momento só é permitido remover nós que são folhas.').
 
 % OPERAÇÕES DE PERCURSO NA ÁRVORE
